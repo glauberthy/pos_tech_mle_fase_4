@@ -73,8 +73,7 @@ A aplicação foi containerizada para garantir que o ambiente de execução seja
 
 -----
 
-
-### 3. Estratégia de Janela Deslizante (Time Step = 60)
+### 4. Estratégia de Janela Deslizante (Time Step = 60)
 
 Para a estruturação dos dados, foi utilizada uma abordagem de **Janela Deslizante (Sliding Window)** com tamanho de 60 dias.
 
@@ -83,30 +82,7 @@ Para a estruturação dos dados, foi utilizada uma abordagem de **Janela Desliza
     1.  **Ciclo Trimestral:** 60 dias úteis correspondem a aproximadamente **um trimestre fiscal** (3 meses). Isso permite que a LSTM capture tendências de curto/médio prazo influenciadas por balanços e ciclos de mercado.
     2.  **Memória da LSTM:** Uma sequência de 60 passos fornece "memória" suficiente para a rede detectar padrões gráficos (como tendências de alta/baixa), sem introduzir ruído excessivo de dados muito antigos que já não refletem a conjuntura econômica atual.
 
------
 
-### 2\. Atualização no Código (`src/app.py`)
-
-Vamos deixar essa documentação visível também para quem consome a API (via Swagger).
-
-No arquivo `src/app.py`, atualize a classe `StockInput` (perto da linha 64) com essa descrição rica:
-
-```python
-# --- 6. Schemas ---
-class StockInput(BaseModel):
-    last_60_days: list[float] = Field(
-        ..., 
-        min_length=60, 
-        max_length=60, 
-        description=(
-            "Lista contendo exatamente os últimos 60 preços de fechamento (Close) "
-            "da ação em ordem cronológica. "
-            "Este período (aprox. 3 meses) representa a janela de contexto trimestral "
-            "necessária para a LSTM identificar a tendência recente."
-        ),
-        example=[30.0 + (i * 0.1) for i in range(60)]
-    )
-```
 
 -----
 
