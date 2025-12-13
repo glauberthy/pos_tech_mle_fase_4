@@ -1,21 +1,33 @@
 import numpy as np
 import joblib
 import tensorflow as tf
+import yfinance as yf
+import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from contextlib import asynccontextmanager
 import logging
 import os
+from datetime import datetime, timedelta
 
-# --- 1. Configuração de Logs (Requisito de Monitoramento) ---
+# --- Configuração de Logs (Requisito de Monitoramento) ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("API_Petrobras")
 
-# --- 2. Variáveis Globais ---
+FALLBACK_DATA = [
+    31.52, 31.64, 31.37, 31.04, 31.33, 31.95, 32.54, 32.32, 32.25, 31.84,
+    31.46, 31.44, 31.08, 30.73, 29.93, 30.21, 30.07, 29.73, 29.41, 29.71,
+    29.77, 29.53, 29.88, 30.16, 29.83, 30.00, 30.01, 30.05, 29.93, 29.77,
+    30.10, 30.25, 30.85, 31.01, 32.18, 32.36, 33.20, 32.35, 32.49, 32.70,
+    32.88, 32.99, 32.82, 32.57, 32.54, 32.28, 32.23, 32.40, 31.79, 31.85,
+    32.07, 32.31, 32.52, 31.37, 31.66, 31.86, 31.94, 31.26, 31.41, 31.26
+]
+
+# --- Variáveis Globais ---
 # O modelo e o scaler ficam na memória RAM para acesso rápido
 ml_models = {}
 
-# --- 3. Ciclo de Vida (Lifespan) ---
+# --- Ciclo de Vida (Lifespan) ---
 # Executa apenas UMA vez quando o servidor sobe
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -44,7 +56,7 @@ async def lifespan(app: FastAPI):
     finally:
         logger.info("🛑 Desligando API e liberando recursos.")
 
-# --- 4. Inicialização do App ---
+# --- Inicialização do App ---
 app = FastAPI(
     title="Tech Challenge Fase 4 - Forecast API",
     description="API para previsão de preço de ações (PETR4) usando LSTM.",
@@ -52,7 +64,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# --- 5. Contrato de Dados (Input Schema) ---
+# --- Contrato de Dados (Input Schema) ---
 class StockInput(BaseModel):
     last_60_days: list[float] = Field(
         ..., 
@@ -62,7 +74,7 @@ class StockInput(BaseModel):
         example=[30.0 + (i * 0.1) for i in range(60)] #fake 
     )
 
-# --- 6. Rotas ---
+# ---Rotas ---
 
 @app.get("/health")
 def health_check():
@@ -73,6 +85,52 @@ def health_check():
         "status": "healthy", 
         "model_loaded": 'model' in ml_models and 'scaler' in ml_models
     }
+
+@app.get("/sample-data")
+def get_sample_data():
+    """
+    Tenta buscar dados reais no Yahoo Finance.
+    Se falhar (bloqueio/timeout), retorna dados de fallback para garantir o teste.
+    """
+    symbol = 'PETR4.SA'
+    
+    try:
+        logger.info(f"Tentando buscar dados ao vivo para {symbol}...")
+        
+        end_date = datetime.now().strftime('%Y-%m-%d')
+        start_date = (datetime.now() - timedelta(days=120)).strftime('%Y-%m-%d')
+        
+        # Tenta baixar
+        df = yf.download(symbol, start=start_date, end=end_date, progress=False)
+        
+        if df.empty:
+            raise ValueError("Yahoo retornou vazio.")
+
+        # Tratamento MultiIndex
+        if isinstance(df.columns, pd.MultiIndex):
+            df = df.xs(symbol, level=1, axis=1)
+            
+        last_60 = df['Close'].ffill().tail(60)
+        
+        if len(last_60) < 60:
+            raise ValueError(f"Dados insuficientes: {len(last_60)}")
+            
+        values = [round(float(x), 2) for x in last_60.values.flatten().tolist()]
+        
+        logger.info("✅ Dados ao vivo obtidos com sucesso.")
+        return {
+            "source": "yahoo_finance_live",
+            "last_60_days": values
+        }
+        
+    except Exception as e:
+        # CIRCUIT BREAKER: Se der erro, usa o fallback
+        logger.warning(f"⚠️ Falha no Yahoo Finance ({e}). Usando dados de Fallback.")
+        return {
+            "source": "fallback_cached_data",
+            "note": "Yahoo Finance indisponível no momento. Usando dados recentes em cache.",
+            "last_60_days": FALLBACK_DATA
+        }
 
 @app.post("/predict")
 def predict_price(input_data: StockInput):

@@ -48,7 +48,7 @@ A organização de diretórios segue o padrão funcional para separação de res
 │   └── 📓 01_treinamento_lstm.ipynb  # Notebook Principal (EDA, Treino e Validação)
 └── 📂 src/                     # 🚀 Código Fonte da Aplicação (Produção)
     └── ⚡ app.py               # API RESTful de alta performance com FastAPI
-````
+```
 
 -----
 
@@ -70,6 +70,43 @@ Utilizado em substituição ao Flask por ser assíncrono (ASGI), o que permite m
 ### 3\. Deploy: Docker
 
 A aplicação foi containerizada para garantir que o ambiente de execução seja idêntico na máquina do desenvolvedor e no servidor de avaliação, eliminando o problema de "funciona na minha máquina".
+
+-----
+
+
+### 3. Estratégia de Janela Deslizante (Time Step = 60)
+
+Para a estruturação dos dados, foi utilizada uma abordagem de **Janela Deslizante (Sliding Window)** com tamanho de 60 dias.
+
+* **O que isso significa:** Para prever o preço do dia $D+1$, o modelo olha estritamente para os preços dos dias $D-59$ até $D$.
+* **Por que 60 dias?**
+    1.  **Ciclo Trimestral:** 60 dias úteis correspondem a aproximadamente **um trimestre fiscal** (3 meses). Isso permite que a LSTM capture tendências de curto/médio prazo influenciadas por balanços e ciclos de mercado.
+    2.  **Memória da LSTM:** Uma sequência de 60 passos fornece "memória" suficiente para a rede detectar padrões gráficos (como tendências de alta/baixa), sem introduzir ruído excessivo de dados muito antigos que já não refletem a conjuntura econômica atual.
+
+-----
+
+### 2\. Atualização no Código (`src/app.py`)
+
+Vamos deixar essa documentação visível também para quem consome a API (via Swagger).
+
+No arquivo `src/app.py`, atualize a classe `StockInput` (perto da linha 64) com essa descrição rica:
+
+```python
+# --- 6. Schemas ---
+class StockInput(BaseModel):
+    last_60_days: list[float] = Field(
+        ..., 
+        min_length=60, 
+        max_length=60, 
+        description=(
+            "Lista contendo exatamente os últimos 60 preços de fechamento (Close) "
+            "da ação em ordem cronológica. "
+            "Este período (aprox. 3 meses) representa a janela de contexto trimestral "
+            "necessária para a LSTM identificar a tendência recente."
+        ),
+        example=[30.0 + (i * 0.1) for i in range(60)]
+    )
+```
 
 -----
 
