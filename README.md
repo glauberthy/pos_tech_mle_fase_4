@@ -130,9 +130,6 @@ O modelo apresenta convergência estável sem sinais graves de *overfitting*, co
 
 | Membro | LinkedIn | GitHub |
 |:--- |:---:|:---:|
-| **Andrea Saka** | [](https://www.linkedin.com/in/andr%C3%A9a-sakai-63751732/) | [](https://github.com/andreaono/) |
-| **Bruno Ferreira** | [](https://www.linkedin.com/in/bferreira-dev/) | [](https://github.com/Bruno-Ferr) |
-| **Glauberthy Cavalcanti** | [](https://www.linkedin.com/in/glauberthy/) | [](https://github.com/glauberthy) |
-
-
-
+| **Andrea Sakai** | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/andr%C3%A9a-sakai-63751732/) | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/andreaono/) |
+| **Bruno Ferreira** | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/bferreira-dev/) | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Bruno-Ferr) |
+| **Glauberthy Cavalcanti** | [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/glauberthy/) | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/glauberthy) |
