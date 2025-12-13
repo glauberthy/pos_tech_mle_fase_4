@@ -9,6 +9,7 @@ from contextlib import asynccontextmanager
 import logging
 import os
 from datetime import datetime, timedelta
+from prometheus_fastapi_instrumentator import Instrumentator
 
 # --- Configuração de Logs (Requisito de Monitoramento) ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -63,6 +64,8 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
+# Cria o endpoint /metrics para Prometheus
+Instrumentator().instrument(app).expose(app)
 
 # --- Contrato de Dados (Input Schema) ---
 class StockInput(BaseModel):

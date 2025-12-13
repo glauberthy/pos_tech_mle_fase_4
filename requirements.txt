@@ -5,5 +5,9 @@ tensorflow
 numpy
 pandas
 joblib
-scikit-learn
 yfinance
+prometheus-fastapi-instrumentator
+scikit-learn==1.8.0
+streamlit
+requests
+plotly
