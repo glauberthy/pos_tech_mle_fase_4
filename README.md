@@ -125,9 +125,6 @@ O modelo apresenta convergência estável sem sinais graves de *overfitting*, co
 
 -----
 
-**Desenvolvido por Andrea Sakay | Glauberty** | Tech Challenge Fase 4
-
-````
 
 ## 👥 Autores do Projeto
 
@@ -137,6 +134,5 @@ O modelo apresenta convergência estável sem sinais graves de *overfitting*, co
 | **Bruno Ferreira** | [](https://www.linkedin.com/in/bferreira-dev/) | [](https://github.com/Bruno-Ferr) |
 | **Glauberthy Cavalcanti** | [](https://www.linkedin.com/in/glauberthy/) | [](https://github.com/glauberthy) |
 
-```
 
 
