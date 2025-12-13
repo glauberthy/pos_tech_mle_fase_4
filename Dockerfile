@@ -13,11 +13,11 @@ COPY src/ ./src/
 COPY models/ ./models/
 
 # 5. Exposição da porta (Documentação)
-EXPOSE 8000
+EXPOSE 7860
 
 # 6. Variáveis de ambiente para o TensorFlow (Desativar GPU no Docker)
 ENV CUDA_VISIBLE_DEVICES="-1"
 ENV TF_CPP_MIN_LOG_LEVEL="2"
 
 # 7. Comando para rodar a API
-CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "7860"]
