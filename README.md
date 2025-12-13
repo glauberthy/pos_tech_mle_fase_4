@@ -71,8 +71,6 @@ Utilizado em substituição ao Flask por ser assíncrono (ASGI), o que permite m
 
 A aplicação foi containerizada para garantir que o ambiente de execução seja idêntico na máquina do desenvolvedor e no servidor de avaliação, eliminando o problema de "funciona na minha máquina".
 
------
-
 ### 4. Estratégia de Janela Deslizante (Time Step = 60)
 
 Para a estruturação dos dados, foi utilizada uma abordagem de **Janela Deslizante (Sliding Window)** com tamanho de 60 dias.
