@@ -11,6 +11,8 @@ import os
 from datetime import datetime, timedelta
 from prometheus_fastapi_instrumentator import Instrumentator
 
+# https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=PETR4.SA&apikey=IR9SKA9WD6LIKSVT
+
 # --- Configuração de Logs (Requisito de Monitoramento) ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("API_Petrobras")
