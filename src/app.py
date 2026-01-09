@@ -21,7 +21,7 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from sklearn.exceptions import InconsistentVersionWarning
 import requests
 
-# https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=PETR4.SA&apikey=IR9SKA9WD6LIKSVT
+# https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=PETR4.SA&apikey=IR9SKA9WD6LIKSVT_****
 # uvicorn src.app:app --reload --env-file .env --host 0.0.0.0 --port 8000
 
 # --- Configuração de Logs (Requisito de Monitoramento) ---
@@ -230,6 +230,7 @@ def get_sample_data_alpha():
             raise ValueError(f"Dados insuficientes: {len(values)}")
 
         return {
+            "source": "alpha_vantage",
             "last_60_days": values,
         }
 

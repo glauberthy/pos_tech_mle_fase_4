@@ -64,7 +64,7 @@ if page == "🔮 Simulador de Previsão":
     
     with col1:
         st.info("O modelo utiliza os últimos 60 dias para prever o próximo fechamento.")
-        if st.button("🔄 Carregar Dados Reais (Yahoo/Cache)", use_container_width=True):
+        if st.button("🔄 Carregar Dados", use_container_width=True):
             with st.spinner("Buscando dados na API..."):
                 try:
                     resp = requests.get(f"{API_URL}/sample-data")
@@ -80,12 +80,11 @@ if page == "🔮 Simulador de Previsão":
 
     if 'input_data' in st.session_state:
         prices = st.session_state['input_data']
-        
+
         fig = go.Figure()
         fig.add_trace(go.Scatter(y=prices, mode='lines+markers', name='Histórico (60 dias)'))
         fig.update_layout(title="Janela de Entrada", height=300)
-        st.plotly_chart(fig, use_container_width=True)
-        
+
         if st.button("🚀 Realizar Previsão", type="primary", use_container_width=True):
             with st.spinner("Processando na Rede Neural..."):
                 payload = {"last_60_days": prices}
@@ -95,22 +94,23 @@ if page == "🔮 Simulador de Previsão":
                         result = resp_pred.json()
                         pred_price = result['predicted_price_brl']
                         st.metric(label="Preço Previsto (D+1)", value=f"R$ {pred_price:.2f}")
-                        
+
                         last_day = len(prices)
                         fig.add_trace(go.Scatter(
-                            x=[last_day], 
-                            y=[pred_price], 
+                            x=[last_day],
+                            y=[pred_price],
                             mode='markers+text',
                             marker=dict(color='red', size=15),
                             text=[f"R$ {pred_price}"],
                             textposition="top center",
                             name='Previsão'
                         ))
-                        st.plotly_chart(fig, use_container_width=True)
                     else:
                         st.error(f"Erro na previsão: {resp_pred.text}")
                 except Exception as e:
                     st.error(f"Erro de conexão: {e}")
+
+        st.plotly_chart(fig, use_container_width=True)
 
 # --- PÁGINA 2: MONITORAMENTO ---
 elif page == "📊 Monitoramento (Ops)":
