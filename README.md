@@ -1,3 +1,12 @@
+---
+title: Tech Challenge Fase 4 - Petrobras Forecast
+emoji: 📈
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+app_port: 7860
+---
 # 📈 Tech Challenge Fase 4: Previsão de Ativos com LSTM
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)
