@@ -10,7 +10,7 @@ END_DATE = '2024-12-30' # Atualizado para pegar dados recentes
 def download_data():
     print(f"Baixando dados para {SYMBOL}...")
     
-    # [cite: 24] Use a função download para obter os dados
+    #Use a função download para obter os dados
     df = yf.download(SYMBOL, start=START_DATE, end=END_DATE)
     
     # Verificação básica de qualidade (Issue #2 simplificada)
