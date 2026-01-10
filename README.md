@@ -258,16 +258,28 @@ curl http://localhost:8000/health
 
 ## 📊 Performance do Modelo
 
-O modelo apresenta convergência estável sem sinais graves de *overfitting*, como demonstrado pelas curvas de Loss abaixo:
+O modelo apresenta convergência estável sem sinais graves de *overfitting*, como demonstrado pelas curvas de Loss durante o treinamento.
 
-*(Insira aqui a imagem do gráfico de Loss ou Validação se desejar)*
+### Comparativo: LSTM vs Baseline (Naive)
 
-**Resultados no Conjunto de Teste:**
+O **Modelo Naive** (prever que o preço de amanhã será igual ao de hoje) serve como baseline para validar se a LSTM está agregando valor preditivo real.
 
-| Métrica | Valor |
-|---------|-------|
-| **MAE** (Erro Absoluto Médio) | R$ 0.68 |
-| **MAPE** (Erro Percentual Absoluto Médio) | 2.25% |
+| Métrica | Modelo Naive (Baseline) | Modelo LSTM |
+|---------|:-----------------------:|:-----------:|
+| **MAE** (Erro Absoluto Médio) | R$ 0.31 | R$ 0.54 |
+| **RMSE** (Raiz do Erro Quadrático) | R$ 0.43 | R$ 0.75 |
+| **MAPE** (Erro Percentual) | 1.01% | 1.75% |
+| **sMAPE** (Simétrico) | 1.01% | 1.75% |
+| **MASE** | 1.00 | 1.74 |
+
+### Análise dos Resultados
+
+> ⚠️ **Observação importante:** Os resultados mostram que o modelo Naive apresenta métricas melhores que a LSTM neste conjunto de teste específico. Isso é um fenômeno comum em séries financeiras, onde o comportamento de "passeio aleatório" (*random walk*) faz com que o preço do próximo dia seja altamente correlacionado com o preço atual.
+
+**Interpretação:**
+- O **MAPE de 1.75%** indica que, em média, o modelo LSTM erra ~1.75% do valor real
+- Para um ativo na faixa de R$ 30, isso representa um erro médio de ~R$ 0.54
+- A LSTM pode capturar **padrões de tendência** e **reversões** que o Naive não consegue, sendo potencialmente útil em cenários de maior volatilidade
 
 ---
 
