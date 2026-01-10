@@ -24,7 +24,7 @@ app_port: 7860
 <td align="center" width="50%">
 
 ### 🎬 Vídeo da Apresentação
-[![YouTube](https://img.shields.io/badge/YouTube-Assistir_Apresentação-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=SEU_VIDEO_ID)
+[![YouTube](https://img.shields.io/badge/YouTube-Assistir_Apresentação-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=7AaYYsEG3W4)
 
 **👆 Clique para assistir**
 
@@ -32,7 +32,7 @@ app_port: 7860
 <td align="center" width="50%">
 
 ### 🚀 Projeto em Produção
-[![Hugging Face](https://img.shields.io/badge/🤗_Hugging_Face-Demo_Online-FFD21E?style=for-the-badge)](https://huggingface.co/spaces/SEU_USUARIO/SEU_SPACE)
+[![Hugging Face](https://img.shields.io/badge/🤗_Hugging_Face-Demo_Online-FFD21E?style=for-the-badge)](https://glauberthy-tech-challenge-fase4-petrobras.hf.space/)
 
 **👆 Clique para testar ao vivo**
 
