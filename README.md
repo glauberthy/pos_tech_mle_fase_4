@@ -19,7 +19,7 @@ app_port: 7860
 
 ## 🎯 Links Importantes (Para Avaliação)
 
-<table>
+<table width="100%">
 <tr>
 <td align="center" width="50%">
 
@@ -53,11 +53,11 @@ O projeto foi desenhado seguindo princípios de microsserviços e reprodutibilid
 
 ```mermaid
 graph LR
-    A[Yahoo Finance / Alpha Vantage] -->|Coleta de Dados| B(Data Cleaning)
+    A[Yahoo Finance - Alpha Vantage] -->|Coleta de Dados| B(Data Cleaning)
     B -->|Normalização| C(Feature Engineering)
     C -->|Treinamento| D{Modelo LSTM}
     D -->|Artefatos| E[lstm_model.keras]
-    D -->|Artefatos| F[scaler_X.pkl / scaler_Y.pkl]
+    D -->|Artefatos| F[scaler_X.pkl - scaler_Y.pkl]
     
     User((Usuário)) -->|Dashboard| G[Streamlit :7860]
     G -->|Requisições| API[FastAPI :8000]
@@ -65,7 +65,7 @@ graph LR
     API -->|Carrega| F
     API -->|Previsão JSON| G
     
-    Prometheus[/metrics] -.->|Monitoramento| API
+    Metrics["/metrics"] -.->|Monitoramento| API
 ```
 
 ---
